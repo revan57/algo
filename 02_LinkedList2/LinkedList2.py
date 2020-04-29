@@ -95,10 +95,3 @@ class LinkedList2:
             self.head.prev = newNode
             newNode.next = self.head
         self.head = newNode
-
-
-l = LinkedList2()
-n1 = Node(1)
-l.insert(None, n1)
-print(l.head.__dict__)
-print(l.tail.__dict__)
