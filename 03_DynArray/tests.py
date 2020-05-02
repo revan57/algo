@@ -45,6 +45,11 @@ class TestClass:
         assert arr[0] == 36
         assert arr.capacity == int(prev_capacity/1.5)
 
+        for el in range(20):
+            arr.delete(0)
+
+        assert arr.capacity == 16
+
         with pytest.raises(Exception) as e:
             arr.delete(100)
         assert str(e.value) == 'Index is out of bounds'
