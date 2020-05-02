@@ -42,6 +42,7 @@ class TestClass:
             arr.delete(0)
 
         assert arr.count == 24
+        assert arr[0] == 36
         assert arr.capacity == int(prev_capacity/1.5)
 
         with pytest.raises(Exception) as e:
