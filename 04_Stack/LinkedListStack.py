@@ -36,10 +36,7 @@ class LinkedListStack:
         return val
 
     def peek(self):
-        if self.head:
-            return self.head.value
-
-        return None
+        return self.head.value if self.head else None
 
     def size(self):
         node = self.head
