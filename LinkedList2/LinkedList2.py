@@ -95,3 +95,17 @@ class LinkedList2:
             self.head.prev = newNode
             newNode.next = self.head
         self.head = newNode
+
+    def delete_from_head(self):
+        val = None
+
+        if self.head:
+            val = self.head.value
+            self.head = self.head.next
+            if self.head:
+                self.head.prev = None
+
+        if self.head is None:
+            self.tail = None
+
+        return val
