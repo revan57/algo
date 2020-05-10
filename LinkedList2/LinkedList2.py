@@ -96,7 +96,7 @@ class LinkedList2:
             newNode.next = self.head
         self.head = newNode
 
-    def delete_from_head(self):
+    def pop_from_head(self):
         val = None
 
         if self.head:
@@ -109,3 +109,9 @@ class LinkedList2:
             self.tail = None
 
         return val
+
+    def print_all_nodes(self):
+        node = self.head
+        while node:
+            print(node.value)
+            node = node.next

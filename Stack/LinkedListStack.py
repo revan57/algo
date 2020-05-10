@@ -17,7 +17,7 @@ class LinkedListStack:
         self.stack.add_in_head(Node(val))
 
     def pop(self):
-        return self.stack.delete_from_head()
+        return self.stack.pop_from_head()
 
     def peek(self):
         return self.stack.head.value if self.stack.head else None
