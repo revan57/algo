@@ -111,6 +111,9 @@ class OrderedList:
 
             node = node.next
 
+        if self.head is None:
+            self.tail = None
+
     def clean(self, asc):
         self.__ascending = asc
         self.head = None
