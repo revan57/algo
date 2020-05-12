@@ -21,7 +21,7 @@ class TestHashTable:
         table = HashTable(size, 0)
 
         assert table.put('abc') == table.hash_fun('abc') == table.find('abc')
-        assert table.put('абс') == table.hash_fun('абс') == table.find('абс')
+        assert table.put('abcd') == table.hash_fun('abcd') == table.find('abcd')
 
     def test_find(self):
         size = 7
