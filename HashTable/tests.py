@@ -20,8 +20,8 @@ class TestHashTable:
         size = 7
         table = HashTable(size, 0)
 
-        assert table.put('abc') == table.hash_fun('abc')
-        assert table.put('абс') == table.hash_fun('абс')
+        assert table.put('abc') == table.hash_fun('abc') == table.find('abc')
+        assert table.put('абс') == table.hash_fun('абс') == table.find('абс')
 
     def test_find(self):
         size = 7
