@@ -13,15 +13,15 @@ class TestHashTable:
         size = 7
         table = HashTable(size, 0)
 
-        assert table.seek_slot('abc') == len('abc'.encode('utf-8')) % size
-        assert table.seek_slot('абс') == len('абс'.encode('utf-8')) % size
+        assert table.seek_slot('abc') == table.hash_fun('abc')
+        assert table.seek_slot('абс') == table.hash_fun('абс')
 
     def test_put(self):
         size = 7
         table = HashTable(size, 0)
 
-        assert table.put('abc') == len('abc'.encode('utf-8')) % size
-        assert table.put('абс') == len('абс'.encode('utf-8')) % size
+        assert table.put('abc') == table.hash_fun('abc')
+        assert table.put('абс') == table.hash_fun('абс')
 
     def test_find(self):
         size = 7
@@ -29,5 +29,5 @@ class TestHashTable:
 
         assert table.find('abc') is None
         table.put('abc')
-        assert table.find('abc') == len('abc'.encode('utf-8')) % size
+        assert table.find('abc') == table.hash_fun('abc')
         assert table.find('lol') is None
