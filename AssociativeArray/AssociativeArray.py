@@ -1,56 +1,72 @@
 class NativeDictionary:
     def __init__(self, sz):
-        # should be a power of 2
         self.size = sz
-        # https://github.com/python/cpython/blob/master/Objects/dictobject.c#L133
-        self.PERTURB_SHIFT = 5
-        self.MASK = self.size - 1
         self.slots = [None] * self.size
         self.values = [None] * self.size
 
-        if not self.is_power_of_two(self.size):
-            raise Exception('Dict size should be a power of 2')
-
-    # https://github.com/python/cpython/blob/master/Objects/dictobject.c#L1162
     def hash_fun(self, key):
-        return hash(key) & self.MASK
+        return len(key.encode('utf-8')) % self.size
 
     def is_key(self, key):
-        ix = self.find_empty_slot(key)
-        return True if self.slots[ix] is not None else False
+        idx = self.hash_fun(key)
+        slot = self.square_probing(key, idx)
+        if not slot:
+            slot = self.linear_probing(key, idx)
+
+        return True if self.slots[slot] is not None else False
 
     def put(self, key, value):
-        ix = self.find_empty_slot(key)
-        self.slots[ix] = key
-        self.values[ix] = value
+        idx = self.hash_fun(key)
+        slot = self.square_probing(key, idx)
+        if not slot:
+            slot = self.linear_probing(key, idx)
+
+        if slot:
+            self.slots[slot] = key
+            self.values[slot] = value
 
     def get(self, key):
-        result = None
-        idx = self.find_empty_slot(key)
+        idx = self.hash_fun(key)
+        slot = self.square_probing(key, idx)
+        if not slot:
+            slot = self.linear_probing(key, idx)
 
-        if idx is not None:
-            result = self.values[idx]
+        if slot:
+            return self.values[slot]
 
-        return result
+        return None
 
-    # https://github.com/python/cpython/blob/master/Objects/dictobject.c#L1028
-    def find_empty_slot(self, key):
-        i = self.hash_fun(key)
-        ix = self.dictkeys_get_index(key, i)
-        perturb = hash(key)
-        while ix < 0:
-            perturb = perturb >> self.PERTURB_SHIFT
-            i = (i * 5 + perturb + 1) & self.MASK
-            ix = self.dictkeys_get_index(key, i)
+    def square_probing(self, key, idx):
+        i = idx
+        is_arr_passed = False
+        while True:
+            if i > self.size:
+                i = 0
+                is_arr_passed = True
 
-        return ix
+            if self.slots[i] == key or self.slots[i] is None:
+                return i
 
-    def dictkeys_get_index(self, key, i):
-        if self.slots[i] == key:
-            return i
-        elif self.slots[i] is None:
-            return i
-        return -1
+            if i >= idx and is_arr_passed:
+                return None
 
-    def is_power_of_two(self, v):
-        return v & (v - 1) == 0
+            if i == 0 or i == 1:
+                i = i + 1
+            else:
+                i = i ** 2
+
+    def linear_probing(self, key, idx):
+        i = idx
+        is_arr_passed = False
+        while True:
+            if i > self.size:
+                i = 0
+                is_arr_passed = True
+
+            if self.slots[i] == key or self.slots[i] is None:
+                return i
+
+            if i >= idx and is_arr_passed:
+                return None
+
+            i = i + 1
