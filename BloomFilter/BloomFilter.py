@@ -1,4 +1,3 @@
-import bitarray
 class BloomFilter:
     def __init__(self, f_len=32):
         self.filter_len = f_len
