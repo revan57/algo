@@ -1,8 +1,8 @@
-
+import bitarray
 class BloomFilter:
     def __init__(self, f_len=32):
         self.filter_len = f_len
-        self.bitarray = [False] * self.filter_len
+        self.bitarray = 1 << self.filter_len
 
     def hash1(self, str1):
         seed = 17
@@ -23,12 +23,12 @@ class BloomFilter:
     def add(self, str1):
         positions = self.hash1(str1), self.hash2(str1),
         for pos in positions:
-            self.bitarray[pos] = True
+            self.bitarray = self.bitarray | 1 << pos
 
     def is_value(self, str1):
         positions = self.hash1(str1), self.hash2(str1),
         for pos in positions:
-            if not self.bitarray[pos]:
+            if self.bitarray & 1 << pos == 0:
                 return False
 
         return True
