@@ -21,13 +21,11 @@ class BloomFilter:
 
     def add(self, str1):
         positions = self.hash1(str1), self.hash2(str1),
-        print(positions)
         for pos in positions:
             self.bitarray = self.bitarray | 1 << pos
 
     def is_value(self, str1):
         positions = self.hash1(str1), self.hash2(str1),
-        print(positions)
         for pos in positions:
             if self.bitarray & 1 << pos == 0:
                 return False
