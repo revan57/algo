@@ -32,12 +32,12 @@ class HashTable:
         i = self.hash_fun(key)
         ix = self.dictkeys_get_index(key, i)
         perturb = hash(key)
-        while ix < 0:
+        while True:
+            if ix > 0:
+                return ix
             perturb = perturb >> self.PERTURB_SHIFT
             i = (i * 5 + perturb + 1) & self.MASK
             ix = self.dictkeys_get_index(key, i)
-
-        return ix
 
     def dictkeys_get_index(self, key, i):
         if self.slots[i] == key:
@@ -57,11 +57,9 @@ class PowerSet(HashTable):
 
     def put(self, value):
         idx = self.find_empty_slot(value)
-
-        if idx is not None:
-            if self.slots[idx] != value:
-                self.slots[idx] = value
-                self.fill_size += 1
+        if self.slots[idx] != value:
+            self.slots[idx] = value
+            self.fill_size += 1
 
     def get(self, value):
         idx = self.find_empty_slot(value)
