@@ -1,3 +1,5 @@
+import copy
+
 class HashTable:
     def __init__(self, sz):
         self.t_size = sz
@@ -139,8 +141,13 @@ class PowerSet(HashTable):
 
     def union(self, set2):
         result_set = PowerSet()
-        result_set.slots = self.slots.copy()
-        result_set.fill_size = self.fill_size
+
+        for el in self.slots:
+            if el is not None:
+                node = el.head
+                while node:
+                    result_set.put(node.value)
+                    node = node.next
 
         for el in set2.slots:
             if el is not None:
