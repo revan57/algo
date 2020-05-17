@@ -2,10 +2,10 @@ class HashTable:
     def __init__(self, sz):
         self.t_size = sz
         self.slots = [None] * self.t_size
+        self.MASK = self.t_size - 1
 
-    # mod (sum str bytes / table t_size)
     def hash_fun(self, value):
-        return len(value.encode('utf-8')) % self.t_size
+        return hash(value) & self.MASK
 
     def seek_slot(self, value):
         return self.hash_fun(value) if self.t_size > 0 else None

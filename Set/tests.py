@@ -1,4 +1,4 @@
-from Set import PowerSet
+from Set_2 import PowerSet
 
 
 class TestSet:
