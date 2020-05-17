@@ -246,34 +246,44 @@ class TestChainSet:
     def test_difference(self):
         set_1 = ChainPowerSet()
         set_2 = ChainPowerSet()
+
         letters = string.ascii_letters
         words = set()
+
         while len(words) < 20000:
             words.add(''.join(random.choice(letters) for i in range(20)))
 
-        assert len(words) == 20000
         words = list(words)
-        set_1_data = words[:10000]
-        set_2_data = words[10000:]
 
-        for word in set_1_data:
+        data_1 = words[:10000]
+        data_2 = words[10000:]
+
+        for word in data_1:
             set_1.put(word)
 
-        for word in set_1_data:
+        for word in data_1:
             set_2.put(word)
 
         res_set = set_1.difference(set_2)
         assert res_set.size() == 0
         assert len(res_set.get_all_values()) == 0
 
-        for word in set_2_data:
+        res_set = set_2.difference(set_1)
+        assert res_set.size() == 0
+        assert len(res_set.get_all_values()) == 0
+
+        for word in data_2:
             set_1.put(word)
 
         res_set = set_1.difference(set_2)
         assert res_set.size() == 10000
 
-        for word in set_2_data:
+        for word in data_2:
             assert res_set.get(word)
+
+        res_set = set_2.difference(set_1)
+        assert res_set.size() == 0
+        assert len(res_set.get_all_values()) == 0
 
     def test_issubset(self):
         set_1 = ChainPowerSet()
