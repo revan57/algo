@@ -10,18 +10,6 @@ class HashTable:
     def seek_slot(self, value):
         return self.hash_fun(value) if self.t_size > 0 else None
 
-    def put(self, value):
-        idx = self.seek_slot(value)
-
-        if idx is not None:
-            if self.slots[idx] is None:
-                self.slots[idx] = LinkedList()
-                self.slots[idx].add_in_head(Node(value))
-            else:
-                self.slots[idx].add_in_head(Node(value))
-
-        return idx
-
     def find(self, value):
         result = None
         idx = self.seek_slot(value)
@@ -114,8 +102,6 @@ class PowerSet(HashTable):
                     self.slots[idx].add_in_head(Node(value))
                     self.fill_size += 1
 
-        return idx
-
     def get(self, value):
         idx = self.seek_slot(value)
         if idx is not None and self.slots[idx] is not None:
@@ -171,7 +157,7 @@ class PowerSet(HashTable):
             if el is not None:
                 node = el.head
                 while node:
-                    if not set2.get(node.value):
+                    if set2.get(node.value) is False:
                         result_set.put(node.value)
                     node = node.next
 

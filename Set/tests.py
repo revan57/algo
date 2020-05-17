@@ -148,16 +148,23 @@ class TestSetLinearResolve:
 
 class TestChainSet:
     def test_put(self):
-        set = ChainPowerSet()
-        assert set.size() == 0
-        set.put('test_1')
-        set.put('test')
-        set.put('test')
+        set_1 = ChainPowerSet()
+        letters = string.ascii_letters
+        words = set()
+        while len(words) < 20000:
+            words.add(''.join(random.choice(letters) for i in range(20)))
 
-        assert set.size() == 2
-        assert set.get('test_1') is True
-        assert set.get('test') is True
-        assert len(set.get_all_values()) == 2
+        assert len(words) == 20000
+        words = list(words)
+
+        for value in words:
+            set_1.put(value)
+
+        assert len(set_1.get_all_values()) == len(words)
+        assert set_1.size() == len(words)
+
+        for value in words:
+            assert set_1.get(value)
 
     def test_get(self):
         set = ChainPowerSet()
@@ -238,27 +245,35 @@ class TestChainSet:
 
     def test_difference(self):
         set_1 = ChainPowerSet()
-        set_1.put('test_1')
-        set_1.put('test_2')
-        set_1.put('test_3')
-
         set_2 = ChainPowerSet()
-        set_2.put('test_1')
-        set_2.put('test_2')
-        set_2.put('test_3')
+        letters = string.ascii_letters
+        words = set()
+        while len(words) < 20000:
+            words.add(''.join(random.choice(letters) for i in range(20)))
 
-        res = set_1.difference(set_2)
-        assert res.size() == 0
-        assert len(res.get_all_values()) == 0
+        assert len(words) == 20000
+        words = list(words)
+        set_1_data = words[:10000]
+        set_2_data = words[10000:]
 
-        set_1.put('test_4')
-        set_1.put('test_5')
+        for word in set_1_data:
+            set_1.put(word)
 
-        res = set_1.difference(set_2)
-        assert res.size() == 2
-        assert len(res.get_all_values()) == 2
-        assert 'test_4' in res.get_all_values()
-        assert 'test_5' in res.get_all_values()
+        for word in set_1_data:
+            set_2.put(word)
+
+        res_set = set_1.difference(set_2)
+        assert res_set.size() == 0
+        assert len(res_set.get_all_values()) == 0
+
+        for word in set_2_data:
+            set_1.put(word)
+
+        res_set = set_1.difference(set_2)
+        assert res_set.size() == 10000
+
+        for word in set_2_data:
+            assert res_set.get(word)
 
     def test_issubset(self):
         set_1 = ChainPowerSet()
