@@ -6,7 +6,6 @@ class SimpleTreeNode:
 
 
 class SimpleTree:
-
     def __init__(self, root):
         self.Root = root  # корень, может быть None
 
