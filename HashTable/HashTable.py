@@ -5,9 +5,8 @@ class HashTable:
         self.step = stp  # used in linear probing collision resolution
         self.slots = [None] * self.size
 
-    # mod (sum str bytes / table size)
     def hash_fun(self, value):
-        return len(value.encode('utf-8')) % self.size
+        return hash(value) & (self.size - 1)
 
     def seek_slot(self, value):
         return self.hash_fun(value) if self.size > 0 else None
