@@ -53,21 +53,34 @@ class SimpleTree:
 
     def Count(self):
         def recursive_count(node, counter):
-            counter[0] += 1
+            counter += 1
             for el in node.Children:
-                recursive_count(el, counter)
+                counter = recursive_count(el, counter)
 
             return counter
 
-        return recursive_count(self.Root, [0])[0]
+        return recursive_count(self.Root, 0)
 
     def LeafCount(self):
         def recursive_walk(node, counter):
             if len(node.Children) == 0:
-                counter[0] += 1
+                counter += 1
             for el in node.Children:
-                recursive_walk(el, counter)
+                counter = recursive_walk(el, counter)
 
             return counter
 
-        return recursive_walk(self.Root, [0])[0]
+        return recursive_walk(self.Root, 0)
+
+    def check_node_depth(self, val):
+        def recursive_walk(node, depth):
+            if node.NodeValue == val:
+                return depth
+            for el in node.Children:
+                depth = recursive_walk(el, depth + 1)
+
+            return depth
+
+        depth = recursive_walk(self.Root, 1)
+
+        return depth if depth is not None else 0

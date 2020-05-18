@@ -1,5 +1,5 @@
 
-class Queue:
+class SimpleQueue:
     def __init__(self):
         self.queue = LinkedList2()
 
