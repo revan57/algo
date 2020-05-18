@@ -1,11 +1,12 @@
-class NativeDictionary:
+class NativeCache:
     def __init__(self, sz):
         self.size = sz
         self.slots = [None] * self.size
         self.values = [None] * self.size
+        self.hits = [0] * self.size
 
     def hash_fun(self, key):
-        return len(key.encode('utf-8')) % self.size
+        return hash(key) & (self.size - 1)
 
     def is_key(self, key):
         idx = self.hash_fun(key)
@@ -24,6 +25,12 @@ class NativeDictionary:
         if slot is not None:
             self.slots[slot] = key
             self.values[slot] = value
+            self.hits[slot] += 1
+        else:
+            slot = min(range(self.size), key=self.hits.__getitem__)
+            self.hits[slot] = 1
+            self.slots[slot] = key
+            self.values[slot] = value
 
     def get(self, key):
         idx = self.hash_fun(key)
@@ -32,6 +39,7 @@ class NativeDictionary:
             slot = self.linear_probing(key, idx)
 
         if slot is not None:
+            self.hits[slot] += 1
             return self.values[slot]
 
         return None
