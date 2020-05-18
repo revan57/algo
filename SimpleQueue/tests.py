@@ -1,10 +1,10 @@
-from Queue import SImpleQueue
+from SimpleQueue import SimpleQueue
 from rotate_queue import rotate_queue
 
 
 class TestQueue:
     def test_enqueue(self):
-        queue = SImpleQueue()
+        queue = SimpleQueue()
 
         queue.enqueue(0)
         queue.enqueue(1)
@@ -12,7 +12,7 @@ class TestQueue:
         assert queue.size() == 2
 
     def test_dequeue(self):
-        queue = SImpleQueue()
+        queue = SimpleQueue()
 
         assert queue.dequeue() is None
 
@@ -24,7 +24,7 @@ class TestQueue:
         assert queue.dequeue() is None
 
     def test_size(self):
-        queue = SImpleQueue()
+        queue = SimpleQueue()
         assert queue.size() == 0
 
         queue.enqueue(0)
@@ -37,7 +37,7 @@ class TestAdditional:
     def test_rotate_queue(self):
         queue_elems = ''
 
-        queue = SImpleQueue()
+        queue = SimpleQueue()
 
         queue.enqueue(0)
         queue.enqueue(1)
