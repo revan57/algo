@@ -1,8 +1,8 @@
 class SimpleTreeNode:
     def __init__(self, val, parent):
-        self.NodeValue = val  # значение в узле
-        self.Parent = parent  # родитель или None для корня
-        self.Children = []  # список дочерних узлов
+        self.NodeValue = val
+        self.Parent = parent
+        self.Children = []
 
 
 class SimpleTree:
@@ -39,15 +39,15 @@ class SimpleTree:
         return recursive_walk(self.Root, [])
 
     def FindNodesByValue(self, val):
-        def recursive_walk(node, node_list):
+        def recursive_search(node, node_list):
             if node.NodeValue == val:
                 node_list.append(node)
             for el in node.Children:
-                recursive_walk(el, node_list)
+                recursive_search(el, node_list)
 
             return node_list
 
-        return recursive_walk(self.Root, [])
+        return recursive_search(self.Root, [])
 
     def MoveNode(self, OriginalNode, NewParent):
         self.AddChild(NewParent, OriginalNode)
