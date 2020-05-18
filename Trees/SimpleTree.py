@@ -73,14 +73,14 @@ class SimpleTree:
         return recursive_walk(self.Root, 0)
 
     def check_node_depth(self, val):
-        def recursive_walk(node, depth):
+        def recursive_walk(node, increment, depth):
             if node.NodeValue == val:
+                depth = increment
                 return depth
             for el in node.Children:
-                depth = recursive_walk(el, depth + 1)
-
+                depth = recursive_walk(el, increment + 1, depth)
             return depth
 
-        depth = recursive_walk(self.Root, 1)
+        depth = recursive_walk(self.Root, 1, 0)
 
         return depth if depth is not None else 0
