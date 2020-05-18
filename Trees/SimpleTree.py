@@ -83,4 +83,4 @@ class SimpleTree:
 
         depth = recursive_walk(self.Root, 1, 0)
 
-        return depth if depth is not None else 0
+        return depth
