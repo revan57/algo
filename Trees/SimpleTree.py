@@ -11,7 +11,8 @@ class SimpleTree:
 
     def AddChild(self, ParentNode, NewChild):
         try:
-            del NewChild.Parent.Children[NewChild.Parent.Children.index(NewChild)]
+            if NewChild.Parent is not None:
+                del NewChild.Parent.Children[NewChild.Parent.Children.index(NewChild)]
         except ValueError:
             pass
 
@@ -94,3 +95,13 @@ class SimpleTree:
                 recursive_walk(el, depth + 1)
 
         recursive_walk(self.Root, 1)
+
+    def get_node_depth(self, node):
+        def recursive_walk(node, depth):
+            depth += 1
+            if node.Parent is not None:
+                depth = recursive_walk(node.Parent, depth)
+
+            return depth
+
+        return recursive_walk(node, 0)
