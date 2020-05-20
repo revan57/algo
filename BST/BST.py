@@ -122,10 +122,12 @@ class BST:
                     node.RightChild.Parent = node.Parent
                     node.Parent.LeftChild = node.RightChild
                     node.Parent = node_to_delete.Parent
+
                     if node_to_delete.NodeKey > node_to_delete.Parent.NodeKey:
                         node_to_delete.Parent.RightChild = node
                     else:
                         node_to_delete.Parent.LeftChild = node
+
                     node_to_delete.LeftChild.Parent = node
                     node_to_delete.RightChild.Parent = node
             else:
