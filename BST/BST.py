@@ -153,8 +153,8 @@ class BST:
 
     def Count(self):
         def _recursive_count(node, counter):
-            counter += 1
             if node:
+                counter += 1
                 children_arr = []
 
                 if node.LeftChild:
