@@ -81,7 +81,7 @@ class BST:
         if self.Root:
             return _find_max(FromNode) if FindMax else _find_min(FromNode)
         else:
-            return BSTFind()
+            return None
 
     def DeleteNodeByKey(self, key):
         def _simple_delete_node(node_to_delete, child_node):
