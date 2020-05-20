@@ -1,5 +1,3 @@
-import sys
-sys.setrecursionlimit(20000)
 
 class BSTNode:
     def __init__(self, key, val, parent):
