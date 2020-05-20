@@ -47,17 +47,19 @@ class BST:
                     result.ToLeft = True
                     return result
 
-        return _recursive_walk(self.Root, key)
+        return _recursive_walk(self.Root, key) if self.Root else BSTFind()
 
     def AddKeyValue(self, key, val):
         bst_find = self.FindNodeByKey(key)
 
         if not bst_find.NodeHasKey:
-            if bst_find.ToLeft:
-                bst_find.Node.LeftChild = BSTNode(key, val, bst_find.Node)
+            if bst_find.Node:
+                if bst_find.ToLeft:
+                    bst_find.Node.LeftChild = BSTNode(key, val, bst_find.Node)
+                else:
+                    bst_find.Node.RightChild = BSTNode(key, val, bst_find.Node)
             else:
-                bst_find.Node.RightChild = BSTNode(key, val, bst_find.Node)
-
+                self.Root = BSTNode(key, val, None)
             return True
 
         return False
@@ -75,7 +77,10 @@ class BST:
             else:
                 return node
 
-        return _find_max(FromNode) if FindMax else _find_min(FromNode)
+        if self.Root:
+            return _find_max(FromNode) if FindMax else _find_min(FromNode)
+        else:
+            return BSTFind()
 
     def DeleteNodeByKey(self, key):
         def _simple_delete_node(node_to_delete, child_node):
@@ -97,6 +102,7 @@ class BST:
                         node_to_delete.Parent.RightChild = None
                     else:
                         node_to_delete.Parent.LeftChild = None
+            node_to_delete.Parent = None
 
         def _recursive_walk(node_to_delete, node):
             if node.LeftChild is None and node.RightChild is None:
@@ -127,7 +133,6 @@ class BST:
                         node_to_delete.Parent.RightChild = node
                     else:
                         node_to_delete.Parent.LeftChild = node
-
                     node_to_delete.LeftChild.Parent = node
                     node_to_delete.RightChild.Parent = node
             else:
@@ -164,5 +169,5 @@ class BST:
 
             return counter
 
-        # print(f"ROOT: {self.Root.NodeKey}")
+        # print(f"ROOT: {self.Root.NodeKey if self.Root else None}")
         return _recursive_count(self.Root, 0)
