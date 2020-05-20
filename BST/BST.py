@@ -110,14 +110,14 @@ class BST:
                         node_to_delete.Parent.RightChild = node
                     else:
                         node_to_delete.Parent.LeftChild = node
-                node_to_delete.LeftChild.Parent = node
-                node_to_delete.RightChild.Parent = node
+                    node.Parent = node_to_delete.Parent
+                    node.LeftChild = node_to_delete.LeftChild
+                    node.RightChild = node_to_delete.RightChild if node_to_delete.RightChild != node else None
             elif node.LeftChild is None:
                 if node_to_delete == self.Root:
                     self.Root = node
                     node.Parent = None
                     node.LeftChild = node_to_delete.LeftChild
-                    node.RightChild = node_to_delete.RightChild
                 else:
                     node.RightChild.Parent = node.Parent
                     node.Parent.LeftChild = node.RightChild
@@ -151,8 +151,10 @@ class BST:
                 children_arr = []
 
                 if node.LeftChild:
+                    # print(f"L_child: {node.LeftChild.NodeKey}, Parent_val: {node.NodeKey}")
                     children_arr.append(node.LeftChild)
                 if node.RightChild:
+                    # print(f"R_child: {node.RightChild.NodeKey}, Parent_val: {node.NodeKey}")
                     children_arr.append(node.RightChild)
 
                 for el in children_arr:
@@ -160,4 +162,5 @@ class BST:
 
             return counter
 
+        # print(f"ROOT: {self.Root.NodeKey}")
         return _recursive_count(self.Root, 0)
