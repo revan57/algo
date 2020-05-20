@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(20000)
+
 class BSTNode:
     def __init__(self, key, val, parent):
         self.NodeKey = key  # ключ узла
@@ -106,35 +109,40 @@ class BST:
 
         def _recursive_walk(node_to_delete, node):
             if node.LeftChild is None and node.RightChild is None:
+                node.LeftChild = node_to_delete.LeftChild
+                node.LeftChild.Parent = node
+                if node_to_delete.RightChild != node:
+                    node.RightChild = node_to_delete.RightChild
+                    node_to_delete.RightChild.Parent = node
+                    node.Parent.LeftChild = None
                 if node_to_delete == self.Root:
                     self.Root = node
                     node.Parent = None
-                    node.LeftChild = node_to_delete.LeftChild
-                    node.RightChild = node_to_delete.RightChild
                 else:
                     if node_to_delete.NodeKey > node_to_delete.Parent.NodeKey:
                         node_to_delete.Parent.RightChild = node
                     else:
                         node_to_delete.Parent.LeftChild = node
-                    node.Parent = node_to_delete.Parent
-                    node.LeftChild = node_to_delete.LeftChild
-                    node.RightChild = node_to_delete.RightChild if node_to_delete.RightChild != node else None
-            elif node.LeftChild is None:
-                if node_to_delete == self.Root:
-                    self.Root = node
-                    node.Parent = None
-                    node.LeftChild = node_to_delete.LeftChild
-                else:
-                    node.RightChild.Parent = node.Parent
-                    node.Parent.LeftChild = node.RightChild
                     node.Parent = node_to_delete.Parent
 
+            elif node.LeftChild is None:
+                node.LeftChild = node_to_delete.LeftChild
+                node.LeftChild.Parent = node
+                if node_to_delete.RightChild != node:
+                    node.Parent.LeftChild = node.RightChild
+                    node.RightChild.Parent = node.Parent
+                    node.RightChild = node_to_delete.RightChild
+                    node_to_delete.RightChild.Parent = node
+                if node_to_delete == self.Root:
+                    self.Root = node
+                    node.Parent = None
+                else:
                     if node_to_delete.NodeKey > node_to_delete.Parent.NodeKey:
                         node_to_delete.Parent.RightChild = node
                     else:
                         node_to_delete.Parent.LeftChild = node
-                    node_to_delete.LeftChild.Parent = node
-                    node_to_delete.RightChild.Parent = node
+                    node.Parent = node_to_delete.Parent
+
             else:
                 return _recursive_walk(node_to_delete, node.LeftChild)
 
@@ -152,22 +160,9 @@ class BST:
         return node.NodeHasKey
 
     def Count(self):
-        def _recursive_count(node, counter):
-            if node:
-                counter += 1
-                children_arr = []
+        def _recursive_count(node):
+            if node is None:
+                return 0
+            return 1 + _recursive_count(node.LeftChild) + _recursive_count(node.RightChild)
 
-                if node.LeftChild:
-                    # print(f"L_child: {node.LeftChild.NodeKey}, Parent_val: {node.NodeKey}")
-                    children_arr.append(node.LeftChild)
-                if node.RightChild:
-                    # print(f"R_child: {node.RightChild.NodeKey}, Parent_val: {node.NodeKey}")
-                    children_arr.append(node.RightChild)
-
-                for el in children_arr:
-                    counter = _recursive_count(el, counter)
-
-            return counter
-
-        # print(f"ROOT: {self.Root.NodeKey if self.Root else None}")
-        return _recursive_count(self.Root, 0)
+        return _recursive_count(self.Root)
