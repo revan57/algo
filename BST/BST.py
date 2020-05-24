@@ -1,4 +1,3 @@
-
 class BSTNode:
     def __init__(self, key, val, parent):
         self.NodeKey = key  # ключ узла
@@ -164,3 +163,79 @@ class BST:
             return 1 + _recursive_count(node.LeftChild) + _recursive_count(node.RightChild)
 
         return _recursive_count(self.Root)
+
+    def get_level_node(self, node, level):
+        res = []
+        if node is None:
+            return []
+
+        if level == 1:
+            res.append(node)
+            return res
+
+        left = self.get_level_node(node.LeftChild, level - 1)
+        res += left if left else res
+        right = self.get_level_node(node.RightChild, level - 1)
+        res += right if right else res
+
+        return res if left or right else False
+
+    def WideAllNodes(self):
+        level = 1
+        result = []
+
+        while True:
+            res = self.get_level_node(self.Root, level)
+            if not res:
+                break
+            else:
+                result += res
+            level = level + 1
+        return result
+
+    def DeepAllNodes(self, traversal_param):
+        def in_order_traversal(node):
+            res = []
+            if node:
+                res = in_order_traversal(node.LeftChild)
+                res.append(node)
+                res += in_order_traversal(node.RightChild)
+            return res
+
+        def post_order_traversal(node):
+            res = []
+            if node:
+                res = post_order_traversal(node.LeftChild)
+                res += post_order_traversal(node.RightChild)
+                res.append(node)
+            return res
+
+        def pre_order_traversal(node):
+            res = []
+            if node:
+                res.append(node)
+                res += pre_order_traversal(node.LeftChild)
+                res += pre_order_traversal(node.RightChild)
+            return res
+
+        if traversal_param == 0:
+            return tuple(in_order_traversal(self.Root))
+        elif traversal_param == 1:
+            return tuple(post_order_traversal(self.Root))
+        elif traversal_param == 2:
+            return tuple(pre_order_traversal(self.Root))
+
+        else:
+            raise ValueError('Wrong traversal parameter.')
+
+    def print_nodes(self, node):
+        nodes = []
+        if node.LeftChild:
+            print(f"LChild: {node.LeftChild.NodeValue}, parent: {node.LeftChild.Parent.NodeValue}")
+            nodes.append(node.LeftChild)
+        if node.RightChild:
+            print(f"RChild: {node.RightChild.NodeValue}, parent: {node.RightChild.Parent.NodeValue}")
+            nodes.append(node.RightChild)
+
+        for el in nodes:
+            self.print_nodes(el)
