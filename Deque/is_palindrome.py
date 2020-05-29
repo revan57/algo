@@ -7,10 +7,10 @@ def is_palindrome(string: str):
 
     for s in string:
         if s.lower().isalpha():
-            deque.addTail(s)
+            deque.add_tail(s)
 
     while deque.size() > 0:
-        if deque.removeFront() != deque.removeTail():
+        if deque.remove_front() != deque.remove_tail():
             return False
 
     return True

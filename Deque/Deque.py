@@ -2,16 +2,16 @@ class Deque:
     def __init__(self):
         self.deque = LinkedList2()
 
-    def addFront(self, item):
+    def add_front(self, item):
         self.deque.add_in_head(Node(item))
 
-    def addTail(self, item):
+    def add_tail(self, item):
         self.deque.add_in_tail(Node(item))
 
-    def removeFront(self):
+    def remove_front(self):
         return self.deque.pop_from_head()
 
-    def removeTail(self):
+    def remove_tail(self):
         return self.deque.pop_from_tail()
 
     def size(self):

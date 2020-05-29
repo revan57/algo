@@ -21,7 +21,7 @@ class BST:
     def __init__(self, node):
         self.Root = node  # корень дерева, или None
 
-    def FindNodeByKey(self, key):
+    def find_node_by_key(self, key):
         def _recursive_walk(node, key):
             if key == node.NodeKey:
                 result = BSTFind()
@@ -49,8 +49,8 @@ class BST:
 
         return _recursive_walk(self.Root, key) if self.Root else BSTFind()
 
-    def AddKeyValue(self, key, val):
-        bst_find = self.FindNodeByKey(key)
+    def add_key_value(self, key, val):
+        bst_find = self.find_node_by_key(key)
 
         if not bst_find.NodeHasKey:
             if bst_find.Node:
@@ -64,7 +64,7 @@ class BST:
 
         return False
 
-    def FinMinMax(self, FromNode, FindMax):
+    def find_min_max(self, FromNode, FindMax):
         def _find_min(node):
             if node.LeftChild is not None:
                 return _find_min(node.LeftChild)
@@ -82,7 +82,7 @@ class BST:
         else:
             return None
 
-    def DeleteNodeByKey(self, key):
+    def delete_node_by_key(self, key):
         def _simple_delete_node(node_to_delete, child_node):
             if child_node:
                 if node_to_delete == self.Root:
@@ -143,7 +143,7 @@ class BST:
             else:
                 return _recursive_walk(node_to_delete, node.LeftChild)
 
-        node = self.FindNodeByKey(key)
+        node = self.find_node_by_key(key)
 
         if node.NodeHasKey:
             if node.Node.LeftChild is None and node.Node.RightChild is None:
@@ -156,7 +156,7 @@ class BST:
 
         return node.NodeHasKey
 
-    def Count(self):
+    def count(self):
         def _recursive_count(node):
             if node is None:
                 return 0
@@ -180,7 +180,7 @@ class BST:
 
         return res if left or right else False
 
-    def WideAllNodes(self):
+    def wide_all_nodes(self):
         level = 1
         result = []
 
@@ -193,7 +193,7 @@ class BST:
             level = level + 1
         return result
 
-    def DeepAllNodes(self, traversal_param):
+    def deep_all_nodes(self, traversal_param):
         def in_order_traversal(node):
             res = []
             if node:
